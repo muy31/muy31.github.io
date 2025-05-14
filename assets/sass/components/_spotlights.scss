@@ -19,27 +19,42 @@
 			> .image {
 				background-position: center center;
 				background-size: cover;
-				border-radius: 0;
+				border-radius: _size(border-radius);
 				display: block;
 				position: relative;
 				width: 25em;
+				overflow: hidden;
 
 				img {
-					border-radius: 0;
+					border-radius: _size(border-radius);
 					display: block;
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+					@include vendor('transition', 'transform #{_duration(transition)} ease-out');
 				}
 
 				&:before {
-					@include vendor('transition', 'opacity #{_duration(activation)} ease');
-					background: transparentize(_palette(bg), 0.1);
+					@include vendor('transition', 'all #{_duration(transition)} ease');
 					content: '';
 					display: block;
-					height: 100%;
-					left: 0;
-					opacity: 0;
 					position: absolute;
 					top: 0;
+					left: 0;
 					width: 100%;
+					height: 100%;
+					background: rgba(_palette(bg), 0);
+					z-index: 1;
+				}
+
+				&:hover {
+					&:before {
+						background: rgba(_palette(bg), 0.5);
+					}
+
+					img {
+						@include vendor('transform', 'scale(1.05)');
+					}
 				}
 			}
 
@@ -82,7 +97,7 @@
 
 				> .content {
 					> .inner {
-						@include vendor('transform', 'translateX(-1em)');
+						@include vendor('transform', 'translateX(1em)');
 						opacity: 0;
 					}
 				}
@@ -118,8 +133,7 @@
 
 			@include breakpoint('<=small') {
 				> .image {
-					height: 50vh;
-					min-height: 15em;
+					height: 40vh;
 				}
 
 				> .content {
